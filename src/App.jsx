@@ -15,8 +15,40 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
   }, [user])
 
-  const updateBlog = (blog) => {
+  const addBlog = (blog) => {
+    blog.user = user
     setBlogs(blogs.concat([blog]))
+  }
+
+  const updateBlog = async (blog) => {
+    const blogToUpdate = {
+      ...blog,
+      likes: blog.likes + 1,
+      user: blog.user.id,
+    }
+
+    const updatedBlog = await blogService.likeBlog(blogToUpdate)
+
+    const updatedBlogs = blogs.map((bg) => {
+      if (bg.id === updatedBlog.id) {
+        return updatedBlog
+      } else {
+        return bg
+      }
+    })
+
+    setBlogs(updatedBlogs)
+  }
+
+  const deleteBlog = async (blog) => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+      const status = await blogService.deleteBlog(blog.id)
+      if (status === 204) {
+        const updatedBlogs = blogs.filter((bg) => bg.id !== blog.id)
+
+        setBlogs(updatedBlogs)
+      }
+    }
   }
 
   const logout = async () => {
@@ -24,6 +56,8 @@ const App = () => {
     blogService.setToken(null)
     window.localStorage.removeItem("loginData")
   }
+
+  const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
 
   return user === null ? (
     <div>
@@ -34,16 +68,25 @@ const App = () => {
   ) : (
     <div>
       <h2>blogs</h2>
+      <p>
+        {user.username} logged in
+        <button onClick={logout}>logout</button>
+      </p>
       {message && <Notification message={message} error={error} />}
       <CreateBlog
-        updateBlog={updateBlog}
+        addBlog={addBlog}
         setMessage={setMessage}
         setError={setError}
       />
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+      {sortedBlogs.map((blog) => (
+        <Blog
+          key={blog.id}
+          blog={blog}
+          updateBlog={updateBlog}
+          deleteBlog={deleteBlog}
+          user={user}
+        />
       ))}
-      <button onClick={logout}>logout</button>
     </div>
   )
 }

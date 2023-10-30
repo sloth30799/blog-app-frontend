@@ -13,7 +13,7 @@ const LoginBox = ({ setUser, setError, setMessage }) => {
       setUser(data)
       blogService.setToken(data.token)
     }
-  }, [])
+  }, [setUser])
 
   const handleLogin = async (event) => {
     event.preventDefault()
