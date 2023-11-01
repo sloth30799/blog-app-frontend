@@ -1,7 +1,6 @@
 import React, { useState } from "react"
-import blogService from "../services/blogs"
 
-const CreateBlog = ({ addBlog, setError, setMessage }) => {
+const BlogForm = ({ addBlog, setError, setMessage }) => {
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")
   const [url, setUrl] = useState("")
@@ -11,13 +10,7 @@ const CreateBlog = ({ addBlog, setError, setMessage }) => {
     event.preventDefault()
 
     try {
-      const data = await blogService.createBlog({
-        title,
-        author,
-        url,
-      })
-
-      addBlog(data)
+      const data = await addBlog(title, author, url)
       setTitle("")
       setAuthor("")
       setUrl("")
@@ -36,6 +29,7 @@ const CreateBlog = ({ addBlog, setError, setMessage }) => {
       }, 5000)
     }
   }
+
   return (
     <div>
       {!show ? (
@@ -48,6 +42,7 @@ const CreateBlog = ({ addBlog, setError, setMessage }) => {
             <input
               type="text"
               value={title}
+              placeholder="Title"
               name="title"
               onChange={({ target }) => setTitle(target.value)}
             />
@@ -57,6 +52,7 @@ const CreateBlog = ({ addBlog, setError, setMessage }) => {
             <input
               type="text"
               value={author}
+              placeholder="Author"
               name="author"
               onChange={({ target }) => setAuthor(target.value)}
             />
@@ -66,6 +62,7 @@ const CreateBlog = ({ addBlog, setError, setMessage }) => {
             <input
               type="text"
               value={url}
+              placeholder="URL"
               name="url"
               onChange={({ target }) => setUrl(target.value)}
             />
@@ -78,4 +75,4 @@ const CreateBlog = ({ addBlog, setError, setMessage }) => {
   )
 }
 
-export default CreateBlog
+export default BlogForm

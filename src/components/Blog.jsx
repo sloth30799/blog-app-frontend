@@ -13,11 +13,13 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
   const [details, setDetails] = useState(false)
 
   return (
-    <div style={blogStyle}>
+    <div className="blog" style={blogStyle}>
       {!details ? (
         <div>
           {blog.title} {blog.author}
-          <button onClick={() => setDetails(true)}>show</button>
+          <button className="show-btn" onClick={() => setDetails(true)}>
+            show
+          </button>
         </div>
       ) : (
         <div>
@@ -28,7 +30,9 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
           <a href="#">{blog.url}</a>
           <p>
             {blog.likes}
-            <button onClick={() => updateBlog(blog)}>like</button>
+            <button className="like-btn" onClick={() => updateBlog(blog)}>
+              like
+            </button>
           </p>
           <p>{blog.user.name}</p>
           {blog.user.username === user.username && (

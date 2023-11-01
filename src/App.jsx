@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import Blog from "./components/Blog"
 import blogService from "./services/blogs"
 import LoginBox from "./components/LoginBox"
-import CreateBlog from "./components/CreateBlog"
+import BlogForm from "./components/BlogForm"
 import Notification from "./components/Notification"
 
 const App = () => {
@@ -15,9 +15,17 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
   }, [user])
 
-  const addBlog = (blog) => {
+  const addBlog = async (title, author, url) => {
+    const blog = await blogService.createBlog({
+      title,
+      author,
+      url,
+    })
+
     blog.user = user
     setBlogs(blogs.concat([blog]))
+
+    return blog
   }
 
   const updateBlog = async (blog) => {
@@ -73,11 +81,7 @@ const App = () => {
         <button onClick={logout}>logout</button>
       </p>
       {message && <Notification message={message} error={error} />}
-      <CreateBlog
-        addBlog={addBlog}
-        setMessage={setMessage}
-        setError={setError}
-      />
+      <BlogForm addBlog={addBlog} setMessage={setMessage} setError={setError} />
       {sortedBlogs.map((blog) => (
         <Blog
           key={blog.id}
