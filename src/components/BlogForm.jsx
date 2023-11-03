@@ -33,13 +33,16 @@ const BlogForm = ({ addBlog, setError, setMessage }) => {
   return (
     <div>
       {!show ? (
-        <button onClick={() => setShow(true)}>New Blog</button>
+        <button id="new-blog-btn" onClick={() => setShow(true)}>
+          New Blog
+        </button>
       ) : (
         <form onSubmit={createBlog} className="my-3">
           <h2>Create New</h2>
           <div>
             title
             <input
+              id="title"
               type="text"
               value={title}
               placeholder="Title"
@@ -50,6 +53,7 @@ const BlogForm = ({ addBlog, setError, setMessage }) => {
           <div>
             author
             <input
+              id="author"
               type="text"
               value={author}
               placeholder="Author"
@@ -60,6 +64,7 @@ const BlogForm = ({ addBlog, setError, setMessage }) => {
           <div>
             url
             <input
+              id="url"
               type="text"
               value={url}
               placeholder="URL"
@@ -67,7 +72,9 @@ const BlogForm = ({ addBlog, setError, setMessage }) => {
               onChange={({ target }) => setUrl(target.value)}
             />
           </div>
-          <button type="submit">Create</button>
+          <button id="create-blog-btn" type="submit">
+            Create
+          </button>
           <button onClick={() => setShow(false)}>cancel</button>
         </form>
       )}

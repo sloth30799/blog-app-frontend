@@ -25,10 +25,12 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
         <div>
           <p>
             {blog.title} {blog.author}
-            <button onClick={() => setDetails(false)}>show</button>
+            <button id="show-btn" onClick={() => setDetails(false)}>
+              show
+            </button>
           </p>
           <a href="#">{blog.url}</a>
-          <p>
+          <p className="like-count">
             {blog.likes}
             <button className="like-btn" onClick={() => updateBlog(blog)}>
               like
@@ -36,7 +38,9 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
           </p>
           <p>{blog.user.name}</p>
           {blog.user.username === user.username && (
-            <button onClick={() => deleteBlog(blog)}>remove</button>
+            <button className="remove-btn" onClick={() => deleteBlog(blog)}>
+              remove
+            </button>
           )}
         </div>
       )}

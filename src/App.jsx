@@ -12,7 +12,9 @@ const App = () => {
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
+    if (user) {
+      blogService.getAll().then((blogs) => setBlogs(blogs))
+    }
   }, [user])
 
   const addBlog = async (title, author, url) => {
